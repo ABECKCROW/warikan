@@ -6,6 +6,7 @@ export type PaymentsResponseType = {
   is_shared: boolean,
   pair_id: number,
   user_id: number,
+  shared_payments:SharedPaymentsResponseType[]
 }
 
 export type PaymentsType = {
@@ -16,4 +17,16 @@ export type PaymentsType = {
   isShared: boolean,
   pairId: number,
   userId: number,
+  sharedPayments :SharedPaymentsType[]
+}
+
+type SharedPaymentsResponseType = {
+  id: number,
+  amount: number,
+  payment_id: number;
+}
+
+type SharedPaymentsType = {
+  id: number,
+  amount: number,
 }
