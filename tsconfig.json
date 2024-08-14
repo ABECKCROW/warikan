@@ -13,14 +13,36 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "incremental": true,
+    "jsx": "preserve",
+    "noEmit": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "plugins": [
+    {
+      "name": "next"
+    }
+  ],
+  "paths": {
+    "@/*": [
+      "./*"
+    ]
   },
   "include": [
-    "app"
+    "../Documents/Project/private/warikan/next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

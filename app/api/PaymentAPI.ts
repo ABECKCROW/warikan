@@ -1,6 +1,6 @@
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabaseClient';
-import { PaymentsResponseType } from '../types/Payment.type';
+import { supabase } from './supabaseClient';
+import { PaymentsResponseType } from '../../types/Payment.type';
 import { SharedPaymentRepository } from './SharedPaymentAPI';
 
 export class PaymentAPI {

@@ -1,11 +1,12 @@
+'use client'
 import { Text } from '@chakra-ui/react';
 import { Page } from '@shopify/polaris';
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import { PaymentRepository } from '../api/PaymentAPI';
-import { AmountInput } from '../components/AmountInput';
-import { Header } from '../components/Header';
+import { useEffect, useState } from 'react';
+
 import { PaymentsResponseType, PaymentsType } from '../types/Payment.type';
+import { PaymentRepository } from './api/PaymentAPI';
+import { AmountInput } from './components/AmountInput';
+import { Header } from './components/Header';
 
 const convertToCamelCase = (data: PaymentsResponseType[]): PaymentsType[] => {
   return data.map(item => ({
