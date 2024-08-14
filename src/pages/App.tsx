@@ -72,9 +72,10 @@ export default function App() {
       <Header />
       {data.map((item => (
         <Text
-          ml={10}>{item.userId === 1 ? "Q" : "M"} ￥{item.amount}円 {item.sharedPayments.map((item) => item.amount ? `￥${item.amount}` : "")}</Text>
+          ml={10}>{new Date(item.date).toISOString().split('T')[0]}　{item.userId === 1 ? "Q" : "M"}　¥{item.amount} 　　{item.description}　　　{item.sharedPayments.map((item) => item.amount ? `↪️¥${item.amount}` : "")}</Text>
       )))}
-      <Text ml={10}>{`合計金額:${sum.total}、奢り金額:${sum.give}`}</Text>
+      <br />
+      <Text ml={10}>{`Total: ${sum.total}、Treat: ${sum.give}`}</Text>
       <AmountInput fetchPayments={getAll} />
     </Page>
   );

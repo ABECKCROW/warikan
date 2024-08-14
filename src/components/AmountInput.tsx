@@ -1,24 +1,5 @@
 import { AddIcon, CalendarIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
-import {
-  Button,
-  Checkbox,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Select,
-  Stack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Button, Checkbox, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Select, Stack, useDisclosure, } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PaymentRepository } from '../api/PaymentAPI';
 
@@ -26,7 +7,6 @@ type formValuesType = {
   amount: number; category: string; user: string; date: string; details: string; amountReceived: number;
 }
 
-// "xs" | "sm" | "md" | "lg" | "xl" | "full"
 export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) => {
   const initialInput = {
     amount: 0,
@@ -56,6 +36,7 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
     await PaymentRepository.create(formValuesRef.current, 1);
     onClose();
     fetchPayments();
+    setFormValues(initialInput)
   }, [ fetchPayments ]);
 
   useEffect(() => {

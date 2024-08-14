@@ -1,6 +1,7 @@
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabaseClient';
 import { PaymentsResponseType } from '../types/Payment.type';
+import { SharedPaymentRepository } from './SharedPaymentAPI';
 
 export class PaymentAPI {
 
@@ -11,7 +12,8 @@ export class PaymentAPI {
     return result;
   };
 
-  create = async (formData: any, pairId: number): Promise<PostgrestSingleResponse<PaymentsResponseType[]>> => {
+  create = async (formData: any, pairId: number): Promise<PostgrestSingleResponse<PaymentsResponseType[]>|null> => {
+    try {
     const value = [ {
       amount: formData?.amount,
       description: formData?.description,
@@ -24,7 +26,16 @@ export class PaymentAPI {
       .from('payments')
       .insert(value)
       .select();
+
+    if (result&&result.data){
+      await SharedPaymentRepository.create(result.data[0].id,formData.amountReceived)
+    }
+
     return result;
+    } catch (e){
+      console.error(`Insertion error: ${e}`)
+      return null;
+    }
 
   };
 }
