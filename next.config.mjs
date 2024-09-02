@@ -1,9 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    basePath: '/warikan', // リポジトリ名に置き換えてください
-    trailingSlash: true,
-    output: 'export',
-    distDir: 'out',
-};
+const withPWA = require("next-pwa")({
+    dest: "public",
+});
 
-export default nextConfig;
+module.exports = withPWA({
+    output: "export",
+});
