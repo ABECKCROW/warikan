@@ -1,39 +1,30 @@
-import { Grid, GridItem } from '@chakra-ui/react';
-import { css } from '@emotion/react/macro';
-import { AvatarIcon } from './AvatarIcon';
+'use client';
+import { Box, Center, Grid, GridItem } from '@chakra-ui/react';
+import { IoHomeSharp } from "react-icons/io5";
 
-
-export const Footer=() => {
-
+export const Footer = () => {
   return (
-    <Grid templateColumns="repeat(5, 1fr)" gap={6} css={args}>
-      <GridItem>
-        Home
-      </GridItem>
-      <GridItem>
-        Nav
-      </GridItem>
-      <GridItem>
-        Main
-      </GridItem>
-      <GridItem>
-        <AvatarIcon name={"+"} size={"md"} src={""}/>
-      </GridItem>
-      <GridItem>
-        ああああああああああ
-      </GridItem>
-    </Grid>
+    <Box>
+      <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+        <GridItem>
+          <Center>
+          <IoHomeSharp />
+          ホーム
+          </Center>
+        </GridItem>
+        <GridItem>
+          入出金
+        </GridItem>
+        <GridItem>
+          家計簿
+        </GridItem>
+        <GridItem>
+          口座
+        </GridItem>
+        <GridItem>
+          資産
+        </GridItem>
+      </Grid>
+    </Box>
   );
 };
-
-
-const args = css`
-  display: none;
-  @media (display-mode: standalone) {
-    display: block;
-  }
-  //display: block;
-  //@media (display-mode: standalone) {
-  //  display: none;
-  //}
-`

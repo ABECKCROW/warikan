@@ -1,5 +1,26 @@
 import { AddIcon, CalendarIcon, EditIcon, StarIcon } from '@chakra-ui/icons';
-import { Button, Checkbox, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Select, Stack, useDisclosure, } from '@chakra-ui/react';
+import {
+  Button,
+  Checkbox,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Icon,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Select,
+  Stack,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PaymentRepository } from '../api/PaymentAPI';
 
@@ -16,6 +37,7 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
     details: "",
     amountReceived: 0,
   };
+  const router = useRouter();
   const btnRef = React.useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ isInputDisabled, setIsInputDisabled ] = useState(true);
@@ -23,6 +45,7 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
   const [ formValues, setFormValues ] = useState<formValuesType>(initialInput);
   const formValuesRef = useRef(formValues);
   const isCheckRef = useRef(true);
+  const toast = useToast();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
@@ -33,10 +56,16 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
   };
 
   const createPayment = useCallback(async (value: any) => {
-    await PaymentRepository.create(formValuesRef.current, 1);
+    const result = await PaymentRepository.create(formValuesRef.current, 1);
     onClose();
     fetchPayments();
-    setFormValues(initialInput)
+    setFormValues(initialInput);
+    toast({
+      title: result?.status === 200 ? 'Payment input completed.' : 'Payment input failed',
+      status: result?.status === 200 ? 'success' : 'error',
+      duration: 2000,
+      isClosable: true,
+    });
   }, [ fetchPayments ]);
 
   useEffect(() => {
@@ -54,6 +83,11 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
     setIsInputDisabled((prevDisabled) => !prevDisabled);
   }, [ isChecked ]);
 
+  const handleAddButton = useCallback(() => {
+    router.push("/");
+    onOpen();
+  }, [onOpen]);
+
   return (
     <>
       <IconButton
@@ -64,7 +98,7 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
         fontSize="20px"
         icon={<AddIcon />}
         ref={btnRef}
-        onClick={onOpen}
+        onClick={handleAddButton}
       />
       <Drawer
         isOpen={isOpen}
@@ -92,7 +126,9 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
               />
 
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<Icon as={StarIcon} color="black" />} />
+                <InputLeftElement pointerEvents="none">
+                  <Icon as={StarIcon} color="black" />
+                </InputLeftElement>
                 <Select
                   name="category"
                   placeholder="カテゴリー"
@@ -106,7 +142,9 @@ export const AmountInput = ({ fetchPayments }: { fetchPayments: () => void }) =>
               </InputGroup>
 
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<Icon as={AddIcon} color="gray.300" />} />
+                <InputLeftElement pointerEvents="none">
+                  <Icon as={AddIcon} color="gray.300" />
+                </InputLeftElement>
                 <Select
                   name="userId"
                   placeholder="ユーザー名"

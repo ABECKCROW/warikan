@@ -1,11 +1,12 @@
-'use client'
-import { Text } from '@chakra-ui/react';
+'use client';
+import { Box, Center, Flex, Stack, Tag,Text } from '@chakra-ui/react';
 import { Page } from '@shopify/polaris';
 import { useEffect, useState } from 'react';
 
 import { PaymentsResponseType, PaymentsType } from '../types/Payment.type';
 import { PaymentRepository } from './api/PaymentAPI';
 import { AmountInput } from './components/AmountInput';
+import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 
 const convertToCamelCase = (data: PaymentsResponseType[]): PaymentsType[] => {
@@ -70,14 +71,45 @@ export default function App() {
 
   return (
     <Page>
-      <Header />
-      {data.map((item => (
-        <Text
-          ml={10}>{new Date(item.date).toISOString().split('T')[0]}　{item.userId === 1 ? "Q" : "M"}　¥{item.amount} 　　{item.description}　　　{item.sharedPayments.map((item) => item.amount ? `↪️¥${item.amount}` : "")}</Text>
-      )))}
-      <br />
-      <Text ml={10}>{`Total: ${sum.total}、Treat: ${sum.give}`}</Text>
-      <AmountInput fetchPayments={getAll} />
+      <Flex direction="column" h="100vh">
+        <Box as="header">
+          <Header />
+        </Box>
+
+      <Box ml={10} as="main" flex="1" overflowY="auto" p={4}>
+        <Stack direction="column" spacing={8}>
+          {data.map((item => (
+            <Box　
+              key={item.id}
+              ml={item.userId === 1 ? 'auto' : '0'}
+              mr={item.userId === 1 ? '10' : 'auto'}
+            >
+            <Tag
+              size={"lg"}
+              borderRadius="full"
+              variant="solid"
+              colorScheme="teal"
+            >{item.userId === 1 ? "Q" : "M"} ¥{item.amount} {item.description} {item.sharedPayments.map((item) => item.amount ? `↪️¥${item.amount}` : "")}</Tag>
+            <Text>
+              {new Date(item.date).toISOString().split('T')[0]}
+            </Text>
+            </Box>
+          )))}
+        </Stack>
+      </Box>
+      <Center mt={20}>
+        <Tag size={"lg"}>{`Total: ${sum.total}、Treat: ${sum.give}`}</Tag>
+      </Center>
+      <Flex justifyContent="flex-end">
+        <Box p={5}>
+        <AmountInput fetchPayments={getAll} />
+        </Box>
+      </Flex>
+
+        <Box as="footer" p={4}>
+          <Footer/>
+        </Box>
+      </Flex>
     </Page>
   );
 }
