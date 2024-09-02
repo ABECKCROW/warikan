@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: '/your-repo-name', // リポジトリ名に置き換えてください
+    basePath: '/warikan', // リポジトリ名に置き換えてください
     trailingSlash: true,
     output: 'export',
     distDir: 'out',
